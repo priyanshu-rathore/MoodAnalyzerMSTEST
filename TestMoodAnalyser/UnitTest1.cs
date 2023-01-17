@@ -9,7 +9,7 @@ namespace TestMoodAnalyser
         public void givenMessgae_WhenSad_ShouldReturn_Sad()
         {
             MoodAnalyzer moodAnalyzer = new MoodAnalyzer("This is a Sad Message");
-            String mood = moodAnalyzer.analyseMood();
+            String mood = moodAnalyzer.AnalyseMood();
             Assert.AreEqual("SAD", mood);
 
         }
@@ -18,7 +18,16 @@ namespace TestMoodAnalyser
         public void givenMessage_WhenNotSad_ShouldReturn_Happy()
         {
             MoodAnalyzer moodAnalyzer = new MoodAnalyzer("This is Happy Messgae");
-            String mood = moodAnalyzer.analyseMood();
+            String mood = moodAnalyzer.AnalyseMood();
+            Assert.AreEqual("HAPPY", mood);
+        }
+
+        [TestMethod]
+
+        public void givenMessage_WhenNull_ShouldRetrun_Happy()
+        {
+            MoodAnalyzer moodAnalyzer = new MoodAnalyzer(null);
+            String mood = moodAnalyzer.AnalyseMood();
             Assert.AreEqual("HAPPY", mood);
         }
 

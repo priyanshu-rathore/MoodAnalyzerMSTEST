@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MoodAnalyser
-{
+{ 
+
+   
     public class MoodAnalyzer
     {
         string message;
@@ -14,16 +18,29 @@ namespace MoodAnalyser
             this.message = message;
         }
 
-        public string analyseMood()
+        public string AnalyseMood()
         {
-            if (message.Contains("Sad"))
+            try
             {
-                return "SAD";
+                if (message.Contains("Sad"))
+                {
+                    return "SAD";
+                }
+                else
+                {
+                    return "HAPPY";
+                }
+
             }
-            else
+            catch(Exception e)
             {
                 return "HAPPY";
             }
-        }
+
+                    }
     }
+
+
+    
 }
+
