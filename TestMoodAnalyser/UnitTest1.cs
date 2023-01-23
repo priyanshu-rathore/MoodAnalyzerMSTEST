@@ -26,9 +26,16 @@ namespace TestMoodAnalyser
 
         public void givenMessage_WhenNull_ShouldRetrun_Happy()
         {
-            MoodAnalyzer moodAnalyzer = new MoodAnalyzer(null);
-            String mood = moodAnalyzer.AnalyseMood();
-            Assert.AreEqual("HAPPY", mood);
+            try
+            {
+                MoodAnalyzer moodAnalyzer = new MoodAnalyzer("");
+                String mood = moodAnalyzer.AnalyseMood();
+                Assert.AreEqual("", mood);
+            }
+            catch(MoodAnalysisException e)
+            {
+                Assert.AreEqual(e.Message, "User of Empty mood");
+            }
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Serialization;
 using System.Text;
@@ -26,21 +27,25 @@ namespace MoodAnalyser
                 {
                     return "SAD";
                 }
-                else
+                else if(message.Contains("Happy"))
                 {
                     return "HAPPY";
                 }
+                if(message.Contains(string.Empty))
+                {
+                    throw new MoodAnalysisException(MoodAnalysisException.ExpType.Empty_Message, "User of Empty mood");
+                }
+               
+                return default;
 
             }
-            catch(Exception e)
+            catch(NullReferenceException e)
             {
-                return "HAPPY";
+                return "null mood";
             }
 
                     }
     }
 
-
-    
 }
 
