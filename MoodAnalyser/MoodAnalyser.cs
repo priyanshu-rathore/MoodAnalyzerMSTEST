@@ -8,44 +8,48 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MoodAnalyser
-{ 
+{
 
-   
+
     public class MoodAnalyzer
     {
-        string message;
+        private string message;
 
-        public MoodAnalyzer(string message) {
+        public MoodAnalyzer() { }
+
+        public MoodAnalyzer(string message)
+        {
+            if (string.IsNullOrEmpty(message))
+            {
+                throw new MoodAnalysisException(MoodAnalysisException.ExpType.Null_Message, "User of Empty mood");
+            }
             this.message = message;
         }
 
-        public string AnalyseMood()
+        public string analyseMood()
         {
-            try
-            {
-                if (message.Contains("Sad"))
-                {
-                    return "SAD";
-                }
-                else if(message.Contains("Happy"))
-                {
-                    return "HAPPY";
-                }
-                if(message.Contains(string.Empty))
-                {
-                    throw new MoodAnalysisException(MoodAnalysisException.ExpType.Empty_Message, "User of Empty mood");
-                }
-               
-                return default;
+            string Message = message.ToLower();
 
-            }
-            catch(NullReferenceException e)
+            if (Message.Contains("happy"))
             {
-                return "null mood";
+                return "HAPPY";
             }
+            else if (Message.Contains("sad"))
+            {
+                return "SAD";
+            }
+            return "NEUTRAL";
+        }
 
-                    }
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+            MoodAnalyzer otherMoodAnalyser = (MoodAnalyzer)obj;
+            return message == otherMoodAnalyser.message;
+        }
     }
+
 
 }
 
