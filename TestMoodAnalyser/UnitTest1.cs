@@ -32,7 +32,7 @@ namespace TestMoodAnalyser
                 String mood = moodAnalyzer.analyseMood();
                 Assert.AreEqual("", mood);
             }
-            catch(MoodAnalysisException e)
+            catch (MoodAnalysisException e)
             {
                 Assert.AreEqual(e.Message, "User of Empty mood");
             }
@@ -70,8 +70,74 @@ namespace TestMoodAnalyser
             MoodAnalyzer actualMoodAnalyser = new MoodAnalyzer(null);
         }
 
+        [TestMethod]
+        public void GivenMessage_WhenProper_ShouldReturnObject()
+        {
+            // Arrange
+            string message = "I am in a happy mood";
+            string className = "MoodAnalyser.MoodAnalyzer";
+
+            // Act
+            MoodAnalyzer actualMoodAnalyser = MoodAnalyserFactory.createMoodAnalyser(className, message);
+            MoodAnalyzer expectedMoodAnalyser = new MoodAnalyzer(message);
+
+            // Assert
+            Assert.AreEqual(actualMoodAnalyser, expectedMoodAnalyser);
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(MoodAnalysisException), "No Such Class Error")]
+        public void GivenWrongClassName_ShouldThrowMoodAnalysisException2()
+        {
+            // Arrange
+            string message = "I am in a happy mood";
+            string className = "MoodAnalyser.WrongClassName";
+
+            // Act
+            try
+            {
+                MoodAnalyzer actualMoodAnalyser = MoodAnalyserFactory.createMoodAnalyser(className, message);
+            }
+            catch (TypeLoadException e)
+            {
+                throw new MoodAnalysisException(MoodAnalysisException.ExpType.NO_SUCH_CLASS, "No Such Class Error", e);
+            }
+        }
+
+        [TestMethod]
+        public void GivenMessage_WhenProper_ShouldReturnAnalyseMood()
+        {
+            // Arrange
+            string message = "I am in a happy mood";
+            string className = "MoodAnalyser.MoodAnalyzer";
+            // Act
+            string actualMood = MoodAnalyserFactory.invokeAnalyseMood(className, message);
+            // Assert
+            Assert.AreEqual("HAPPY", actualMood);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(MoodAnalysisException), "No Such Method Error")]
+        public void GivenWrongMethodName_ShouldThrowMoodAnalysisException()
+        {
+            // Arrange
+            string message = "I am in a happy mood";
+            string className = "MoodAnalyser.MoodAnalyzer";
+            string wrongMethodName = "WrongMethodName";
+            // Act
+            try
+            {
+                string actualMood = MoodAnalyserFactory.invokeAnalyseMood(className, message, wrongMethodName);
+            }
+            catch (MissingMethodException e)
+            {
+                throw new MoodAnalysisException(MoodAnalysisException.ExpType.NO_SUCH_METHOD, "No Such Method Error", e);
+            }
+        }
 
 
 
     }
+
 }
